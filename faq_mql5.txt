@@ -1,0 +1,190 @@
+﻿Frequently Asked Questions about the Signals service
+1. What the Signals service is needed for?
+The special "Signals" section at MQL5.community website allows all registered users to broadcast their own trading operations from their MetaTrader 4 or MetaTrader 5 trading accounts, as well as to subscribe to copy deals into their trading accounts from Signals of other traders. Each trading signal has its own page in the Signals section, where you can see a detailed trading statistics of deals history, charts of growth and balance, number of subscribers, etc.
+2. Who can create a trading Signal at MQL5.com? Should I pay for this?
+To create a signal you only need to register at MQL5.com. You can create signals with free and paid subscription - in both cases, you don't need to pay anything to create a signal.
+3. When a free Signal will become available for subscription?
+Free signals become available to subscribers as soon as the signal server can connect to a trading account from which the signals will be broadcast.
+4. How to create a free signal?
+If you are registered at MQL5.com, in the upper right corner of the Signals section click "Create your own signal" to open the corresponding page where you can create your own Signal.
+
+Enter the name of your future Signal, then select either MetaTrader 4 or MetaTrader 5 platform, set specify login and investor password of your account on selected trading platform. In the Broker field enter the name of trading server or broker (while typing, you can find the server you need in the appeared drop-down list).
+
+  
+
+After completing all these four fields, click “Add” and you will open the page of your newly created Signal. Enter description for your Signal and save it.
+
+  
+
+5. How to subscribe to a Signal?
+You can subscribe to a trading signal in two ways. First - subscribe directly from the desired signal at the website:
+
+  
+
+Second - subscribe from the client terminal. To do this, you must enter your MQL5.com login and password in the Community tab of the client terminal settings dialog box. For a paid subscription you will also need the required sum of money on your account in MQL5.community payment system.
+
+  
+
+6. I created a signal, but it is not available for subscription on the website. Why?
+Go to the "My signals" section to view the status of your signal. There may be problems with its connection.
+
+  
+
+When you open your signal page you will see the error message. You can correct account number, password and the name of trading server using the "Edit" command.
+
+  
+
+7. How to subscribe to a signal from the MetaTrader 4 (MetaTrader 5) client terminal?
+Select the desired signal in the terminal and open it. Then click "Subscribe" and in the opened dialog box fill in all the required data: agree to the terms of use, confirm password of your MQL5.com account and then click "OK".
+
+  
+
+Then, after a second or two, the next dialog box will appear in which you must configure the setting of signal copying and click "OK".
+
+  
+
+8. Can I copy trades from MetaTrader 4 to MetaTrader 5 or vice versa?
+No, MetaTrader 4 and MetaTrader 5 trading platforms have differences in order accounting and execution. Therefore, you should select signal from the same trading platform as your account to be able to copy trades. Or you can open an account on the same platform (and preferably at the same broker) as a Signal you want to subscribe.
+We recommend you to read the MetaTrader 5 Trading System and Orders, Positions and Deals in MetaTrader 5 articles if you are new to MetaTrader 5.
+
+9. How paid subscriptions are charged? What will happen if a free subscription becomes paid?
+When subscribing to a paid signal, the required amount of money for the entire subscription period (week or month) freezes on Subscriber's account. But these money are not transferred immediately to Provider's account - provider receives money automatically when subscription is expired. If Provider cancels his Signal, frozen money are returned to subscribers.
+
+If Provider decides to make a free Signal paid, then all existing subscriptions remain active and free until the end of subscription period. After subscription is expired, you will be offered to pay to renew this subscription, which you can accept or reject. Thus, converting free subscription to paid one will not charge your account if you have previously subscribed to free signal.
+
+10. Can I cancel a paid subscription?
+If Subscriber cancels his subscription, frozen money will be transferred to Provider. In this case, Subscriber will receive a clear warning:
+
+  
+
+11. I want to copy trades with fixed volume of 1.0 lots. Is it possible?
+No, the volumes of copied trades are calculated automatically by the client terminal on the basis of specified settings and balance ratio of Subscriber's and Provider's accounts. You can not specify fixed volume of deals.
+
+12. On Provider's account all trades are performed with volume of 0.1 lots. I want to copy these trades with larger volume, for example 0.3 lots. Can I raise the volume somehow?
+All volumes are calculated automatically. Subscriber can copy trades with volume larger than on Provider's account only in one case - if Subscriber's account balance reserved for signals copying is greater than Provider's account balance (Subscriber_Balance * Load > Provider_Balance).
+
+13. The Provider has trading symbol called GOLD, and my broker has the same instrument, but it is called XAUUSD. Are trades on GOLD copied to XAUUSD in that case?
+If a Subscriber's account has a symbol with the same name as the one on the Provider's account, and trading is fully allowed for the symbol, trades will be copied for this symbol. If trading is allowed partially or disabled for the found symbol, this symbol is considered inappropriate for copying, and the system will continue to search for a suitable symbol:
+   1. On the Subscriber's account, the system searches for all symbols with the names coinciding with the Provider's symbol by the first 6 characters. For example, EURUSD == EURUSDxxx == EURUSDyyy.
+   2. Full permission to perform trading is checked for each detected symbol. If trading is allowed partially or completely forbidden, such a symbol is discarded.
+   3. Margin calculation type is checked for each remaining symbol - if it is Forex, a symbol is considered to be suitable. Symbols of CFD, Futures or other calculation types are discarded.
+   4. If no symbols remain after conducting all the checks or more than one symbol is found, it is considered that a symbol mapping attempt has failed and it is impossible to copy Provider's trades for that symbol.
+   5. If one suitable symbol is found, it is used for copying Provider's trades.
+   14. The algorithm provides only two exceptions for metal symbols:
+   1. XAUUSD == GOLD
+   2. XAGUSD == SILVER
+   15. In these two cases, only full permission to perform trades is checked. If such permission is present, the mapping attempt is considered to be successful.
+Example 1: A Provider has positions on EURUSD, while a Subscriber – on EURUSD! (or vice versa) with full trading permission. The terminal performs mapping automatically and copies the trades.
+Example 2: A Provider has positions on EURUSD, while a Subscriber – both on EURUSD! and EURUSD. The copying is performed for EURUSD.
+Example 3: A Provider has positions on GOLD, while a Subscriber – on XAUUSD with full trading permission. The terminal performs mapping automatically and copies the trades.
+Example 4: A Provider has positions on GOLD, while a Subscriber – on XAUUSD with close-only (partial) trading permission. The mapping is considered unsuccessful and no copying is performed.
+
+   16. Can I set my own rules of copying trades from a Provider's symbol to a Subscriber's one?
+Provider's and Subscriber's symbols are mapped automatically when copying trades. No custom rules can be set.
+
+   17. What rounding scheme is used for Provider's and Subscriber's percentage ratio of deals volume?
+
+The following step-by-step algorithm is used for percentage rounding:
+
+
+      1. If the value is less than 0.01%, it is rounded to 0.001%, i.e. it is assumed to be 0.001%. Examples: 0.007% => 0.001%, 0.000099 => 0.001%.
+      2. If the value is greater than 0.01% and is less than 0.1%, it is rounded to hundredths. Examples: 0.063% =>0.06%, 0.045 => 0.05%. 
+      3. If the value is greater than 0.1% and is less than 1%, it is rounded to tenths. Examples: 0.11 => 0.1%, 0.25% => 0.3%.
+      4. If the value is greater than 1% and is less than 10%, it is rounded down to the nearest whole number. Examples: 6.25% => 6%, 7.79% =>7%.
+      5. If the value is greater than 10% and is less than 100%, it is rounded down to the nearest whole number with step of 5%. Example: 29.7% => 25%.
+      6. If the value is greater than 100%, it is rounded down to the nearest whole number with step of 10%. Example: 129.6% => 120%.
+      18. 
+You can see an example of calculations in the General information on Trading Signals for MetaTrader 4 and MetaTrader 5 article.
+
+      19. Why there should be no open positions and pending orders on my account in order to subscribe to a signal?
+
+Open positions and pending orders do not allow Subscriber's account to correctly copy Provider's signals.
+
+
+         1. Subscription to a signal means that you completely rely on Provider's trading strategy. Positions and pending orders created by you or any other signal are not part of the current Provider's trading strategy.
+         2. The volume of copied trade operations is calculated based on the value of account balance. Subscriber's positions opened manually or by any other signal increase the deposit load and may also prevent signal copying due to insufficient free margin or lead to Margin Call.
+         3. The netting position accounting system allows you to have only one position for one symbol at the same time. If Subscriber's and Provider's accounts have open positions for the same symbols, signal copying can lead to a reverse of the final position or to a significant change in its volume.
+         20. 
+         21. Why manual trading leads to problems with copying of signals (accounts out of sync)? Why I cannot simultaneously subscribe to a signal and trade on one account?
+
+Manual intervention in trading on account subscribed to a signal, prevents correct copying of Provider's signals and complicates the analysis of signal copying results.
+
+
+            1. Subscription to a signal means that you completely rely on Provider's trading strategy. Positions and pending orders created by you or any other signal are not part of the current Provider's trading strategy.
+            2. The volume of copied trade operations is calculated based on the value of account balance. Subscriber's positions opened manually or by any other signal increase the deposit load and may also prevent signal copying due to insufficient free margin or lead to Margin Call.
+            3. The netting position accounting system allows you to have only one position for one symbol at the same time. If Subscriber's and Provider's accounts have open positions for the same symbols, signal copying can lead to a reverse of the final position or to a significant change in its volume.
+            22. 
+Should the synchronization reveal any inconsistencies, i.e. positions different from those of the Provider or any pending orders set, a standard pop-up window will appear to prompt you for permission to synchronize.
+
+
+ Subscriber's account is not ready for synchronization 
+
+
+            23. How to disable your own Signal? I do not want to broadcast it anymore.
+
+In the "My Signals" section open the signal you want to delete
+  
+
+and click "Edit".
+  
+
+Turn off the "Enabled" option and click "Save".
+
+  
+            24. Does the MetaTrader 4/5 terminal has to be running at Subscriber's end for trades to be copied?
+Trades are copied directly in the Subscriber's terminal which must be running and connected to the relevant account.
+
+            25. Can I unsubscribe from the Signal in the same way I subscribed to it?
+You can cancel the Signal subscription in My Subscriptions on https://www.mql5.com/en/signals or directly in the terminal: see MetaTrader 5 Help → User Interface → Toolbox → Signals: Unsubscribe from Signal. If you unsubscribe from a fee-based Signal, the amount blocked in your account for payment of the subscription fee will be deducted from your account upon canceling the subscription.
+
+            26. How can I find out what Signal I am subscribed to in the terminal and how can I cancel the subscription?
+First, when establishing a connection to the account, the terminal connects to the signal server and checks for any available subscriptions. If the account is subscribed to a Signal, a relevant message will be written to the Journal. In addition, the name of the Signal to which the account is subscribed is displayed in blue in the first line of the Signals section of the terminal settings.
+Second, there is an alternative simple way that allows you to instantly view all your current and expired subscriptions on the Signals page of My Subscriptions. To be able to use this option you should be logged in to your MQL5.com account.
+
+            27. How are transactions copied if the Provider has 4-digit quotes for a Symbol and the Subscriber has 5-digit quotes for the same Symbol or vice verse?
+All transactions copied to the Subscriber's account are executed at current market prices considering the deviation set in the terminal settings and contract specification of the given symbol. Thus when copying deals the number of digits doesn't matter.
+
+            28. How is the Growth in Signals Calculated?
+The growth shows how the balance of an account grows. It is calculated so that the influence of deposits and withdrawals is avoided.
+
+The entire trade history of an account is divided into periods between balance operations (deposits and withdrawals). First, the total growth coefficient (K) is calculated by multiplying the growth coefficients computed for each period between the balance operations (BO) and then the growth in percentage terms is calculated.
+Growth Coefficient К = (Balance before BO1/Initial Deposit) * (Balance before BO2/Balance after BO1 * ... * Balance before BOn/Balance after BOn-1)
+
+Growth in Percentage Terms = (К - 1) * 100%
+
+
+On the chart below, the balance operations are marked with big red dots and the dashed lines indicate the periods of growth calculation:
+
+ Growth Calcualtion 
+In this case, the total growth for the account is calculated as follows:
+Growth Coefficient К = К1 * K2 * K3 = (6 615/10 000 * 17 847/11 115 * 15 547/14 847) = 1.1
+
+Growth in Percentage Terms = (K-1) * 100% = (1.1 - 1) * 100 = 10%
+
+
+Despite the current balance is about 50% higher than the initial deposit, the real growth due to trade operations is only 10%.
+
+            29. How is the year-to-date growth (YTD) calculated, if a sum of monthly growths differs from this value?
+
+We use a compound rate when calculating YTD. This means that the YTD rate is calculated not by a simple addition of growth for several periods of time, but by their multiplication. Every period growth is superimposed on total cumulative growth of previous periods. This can be shown by an example.
+
+  
+
+In 2014 the signal had following monthly growth values:
+               1. There was 14.71% growth in January. That means that a trading account has been multiplied by 1.1471 this month. This is what we call the growth ratio for the period.
+               2. There was 20.51% growth in February, so the growth ratio in February is equal to 1.2051.
+               30. The growth ratio for the period is calculated according to the formula: (Growth in percentage terms) / 100%  + 1.0.   The growth ratio in January = (14.71%/100%)+1.0 = 1.1471.
+               31. You have to multiply together growth ratios of January and February of 2014 and get the general growth ratio for these months to calculate the growth for the period.
+               32. Total growth ratio = 1.1471 * 1.2051 = 1.3823
+               33. The total growth ratio helps us get the ratio in percentage terms as (Total growth ratio - 1) * 100% = Growth for the period
+               34. Growth for January-February of 2013 in percentage terms  = (1.3823 - 1.0) * 100% = 38.23%
+               35. As you can see, there was 38.23% growth in these two months. And it differs greatly from simple addition of percents for every month ( 38.23% != 14.71% + 20.15%)
+               36. So if you want to get a year growth ratio, you need to multiply together growth ratios for each month, then subtract 1.0 from the product and multiply the result by 100%. This will be the compound year-to-date rate (YTD).
+               37. You need to do the same with annual growth values to see the growth for all years of trading.
+               38. How to know the signals copy ratio to my account and the size of the required account deposit in advance?
+
+The signals copy ratio from the provider's account to the subscriber's account depends on 4 factors. The article "Calculator of signals" describes the calculation mechanism and provides an application to automatically calculate these parameters before subscribing to the selected signal.n
+
+               39. Will a trade be copied if the estimated copy volume is less than the minimum allowed volume? Will the minimum volume be opened under any conditions?
+
+If the calculated copy volume is less than the minimum volume allowed on the Subscriber's trading account, then the trade will be executed with the minimum volume. Suppose that the Subscriber's minimum volume on a symbol is 0.1, while the calculated volume is 0.02. Then the trade will be copied with the volume of 0.1 provided that the Subscriber's account has sufficient funds for the trading operation.
