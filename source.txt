@@ -1,0 +1,54 @@
+Trades:
+744
+Profit Trades:
+490 (65.86%)
+Loss Trades:
+254 (34.14%)
+Best trade:
+57.45 USD
+Worst trade:
+-45.59 USD
+Gross Profit:
+3 246.73 USD (344 065 pips)
+Gross Loss:
+-1 705.90 USD (159 746 pips)
+Maximum consecutive wins:
+43 (101.14 USD)
+Maximal consecutive profit:
+124.46 USD (4)
+Sharpe Ratio:
+0.19
+Trading activity:
+100.00%
+Max deposit load:
+8.24%
+Latest trade:
+3 days ago
+Trades per week:
+15
+Avg holding time:
+7 days 
+Recovery Factor:
+12.02
+Long Trades:
+354 (47.58%)
+Short Trades:
+390 (52.42%)
+Profit Factor:
+1.90
+Expected Payoff:
+2.07 USD
+Average Profit:
+6.63 USD
+Average Loss:
+-6.72 USD
+Maximum consecutive losses:
+8 (-34.22 USD)
+Maximal consecutive loss:
+-75.82 USD (6)
+Monthly growth:
+5.89%
+Annual Forecast:
+72.88%
+Algo trading:
+73%
