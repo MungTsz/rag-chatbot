@@ -52,3 +52,21 @@ Annual Forecast:
 72.88%
 Algo trading:
 73%
+
+General Questions 
+How do I install expert advisors or indicators from the mql5.com market?
+
+Kindly read my installation guide.
+
+How do I update expert advisors or indicators from the mql5.com market to latest versions?
+
+The procedure is identical to the installation, but instead of the "Install" button, you should click the "Update" button (it will be available if an update is available).
+
+The free download button is not working!
+
+In order to install a free product, you need to find it in the Market and click "Download". After that, the product will immediately appear in the "Market" list of the Navigator (View => Navigator).
+
+Do I have to pay for future updates?
+
+No, updates are free.
+
