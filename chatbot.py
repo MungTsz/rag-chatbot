@@ -6,8 +6,11 @@ import glob
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Chroma
 import os
-import cohere
-from constants import COHERE_API_KEY
+# from langchain.embeddings import CohereEmbeddings
+from langchain_cohere import CohereEmbeddings
+from langchain.prompts import PromptTemplate
+from langchain.chains import RetrievalQA
+from langchain.llms import Cohere
 
 
 class Document:
@@ -25,7 +28,8 @@ def load_source_to_document(file_base_path, file_format):
                 loader = CSVLoader(file_path=csv_file_path)
                 documents = loader.load()
                 for doc in documents:
-                    all_documents.append(Document(doc.page_content, doc.metadata))
+                    all_documents.append(
+                        Document(doc.page_content, doc.metadata))
 
         case "json":
             json_file_paths = glob.glob(file_base_path + "*.json")
@@ -42,15 +46,42 @@ def load_source_to_document(file_base_path, file_format):
                 loader = TextLoader(file_path=txt_file_path)
                 documents = loader.load()
                 for doc in documents:
-                    all_documents.append(Document(doc.page_content, doc.metadata))
+                    all_documents.append(
+                        Document(doc.page_content, doc.metadata))
 
     return all_documents
 
 
-def split_document(chunk_size, chunk_overlap, document):
+def split_document(chunk_size, chunk_overlap, document, cohere_api_key):
     text_splitter = CharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap
     )
     doc_splits = text_splitter.split_documents(document)
-    os.environ["COHERE_API_KEY"] = COHERE_API_KEY
+    os.environ["COHERE_API_KEY"] = cohere_api_key
     return doc_splits
+
+
+def vector_store(cohere_api_key, doc_splits):
+    embeddings = CohereEmbeddings(cohere_api_key=cohere_api_key)
+    vector_storage = Chroma.from_documents(doc_splits, embeddings)
+    return vector_storage
+
+
+def create_prompt(prompt_template):
+    prompt = PromptTemplate(
+        template=prompt_template,
+        input_variables=["context", "question"]
+    )
+    return prompt
+
+
+def create_data_retriever(prompt, vector_store):
+    retriever = vector_store.as_retriever()
+
+    retrievalQA = RetrievalQA.from_llm(
+        llm=Cohere(),
+        retriever=retriever,
+        prompt=prompt
+    )
+
+    return retrievalQA

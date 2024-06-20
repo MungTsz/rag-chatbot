@@ -1,0 +1,33 @@
+What is Algorithmic Trading?	
+Algorithmic trading, also known as automated trading, is the practice of defining and describing one's financial operations in a clear manner and executing trades in a disciplined manner, following pre-defined rules.
+
+There are various forms of algorithmic trading. The New York Stock Exchange (NYSE) defines program trading as the simultaneous trading of a basket of 15 or more index component stocks with a total value exceeding $1 million. These portfolio trades are executed simultaneously. In simple terms, algorithmic trading involves simultaneously buying or selling a basket of stocks. There are also a few hybrid program trades that involve both buying and selling stocks. Buying a basket of stocks simultaneously is referred to as program buying, while selling a basket of stocks simultaneously is referred to as program selling.
+
+Algorithmic trading is primarily used by large institutions. They buy or sell entire stock portfolios simultaneously or nearly simultaneously, and the buying and selling programs can be used to achieve various objectives.
+
+Can beginners with no investment experience or exposure to algorithmic trading learn and understand it?	
+We start from the basics and explain the essential concepts and methods of algorithmic trading. You don't need prior market experience, and even beginners can easily grasp the concepts.
+
+I have a busy work schedule and limited free time. Can I still make money with algorithmic trading?	
+With algorithmic trading, you can operate 24/7 and trade anytime, anywhere with just a smartphone.
+
+I don't have a substantial amount of capital. How much capital do I need to start algorithmic trading?	
+With algorithmic trading, you can start trading with as little as $100 or even $50. Compared to other investment products, the entry barrier is low, making it suitable for beginners with limited capital.
+
+Is algorithmic trading investment highly risky?	
+Compared to other investment products, algorithmic trading does not result in losses exceeding the invested capital, making the risk relatively lower.
+
+What do I need to start algorithmic trading?	
+Firstly, you will need a computer or a smartphone. Secondly, you need to install the Metatrader 4 trading platform or the MT4 APPS on your mobile device.
+
+What is an EA (Expert Advisor)?	
+An Expert Advisor (EA) is used for automating the trading process, allowing traders to be free from continuous market monitoring. Many professional traders have a multitude of trading systems that enable them to operate in various markets and under different conditions. EAs are robot scripts written in the MQ4 language and can run on the Metatrader 4 trading platform.
+
+Does an EA trade every day?	
+An EA will take necessary action if there are favorable trading conditions (buying or selling). If there are no favorable conditions, the robot will wait for the most suitable moment to open orders.
+
+Why not start trading directly with a real account?	
+You should first test your abilities on a demo account and prove your skills before trading with real money. There is no harm in having multiple opportunities to make profits, but it is wise to be cautious about losses. Never trade on a real account without testing first on a demo account. It is recommended for everyone to test their strategies on a demo account first.
+
+What happens if I lose internet connection in a short period of time?	
+If you have set profit and stop-loss levels before placing the order, losing internet connection for a short period of time will not affect the system's settings. If you are using a VPS (Virtual Private Server), as long as the internet reconnects within a short period of time, it will not impact the system.
