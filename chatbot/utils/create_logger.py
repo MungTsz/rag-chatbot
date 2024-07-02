@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 
-def get_logger(name, log_file_path=None):
+def get_logger(name=None, log_file_path=None):
     """
     Creates a logger with the specified name, log level, and optional log file.
 
