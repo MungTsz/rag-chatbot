@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from typing import List
-from langchain_community.embeddings import CohereEmbeddings
+from langchain_cohere import CohereEmbeddings
 from langchain_community.vectorstores import Chroma
 
 EMBED_DELAY = 0.02  # 20 milliseconds
@@ -31,7 +31,7 @@ def get_cohere_embedding_model(cohere_api_key: str, chunks: List[str]):
 def create_chroma_vector_db(chunks, embeddings, collection_name="chroma"):
     if not chunks:
         print("Empty texts passed in to create vector database")
-        proxy_embeddings = EmbeddingProxy(embeddings)
+    proxy_embeddings = EmbeddingProxy(embeddings)
     db = Chroma(
         collection_name=collection_name,
         embedding_function=proxy_embeddings,
@@ -40,3 +40,8 @@ def create_chroma_vector_db(chunks, embeddings, collection_name="chroma"):
     db.add_documents(chunks)
 
     return db
+
+
+def find_similar(vector_store, query):
+    docs = vector_store.similarity_search(query)
+    return docs
