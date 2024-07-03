@@ -1,4 +1,4 @@
-from langchain_cohere import Cohere
+from langchain.llms import Cohere
 
 
 def get_cohere_model():
