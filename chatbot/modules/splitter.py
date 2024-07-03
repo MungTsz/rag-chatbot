@@ -1,8 +1,8 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-from utils import create_logger
+from utils.create_logger import get_logger
 
-logger = create_logger()
+logger = get_logger()
 
 
 def split_documents(docs):
