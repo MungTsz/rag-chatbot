@@ -4,6 +4,7 @@ from typing import List
 from langchain_cohere import CohereEmbeddings
 from langchain_community.vectorstores import Chroma
 
+
 EMBED_DELAY = 0.02  # 20 milliseconds
 
 
