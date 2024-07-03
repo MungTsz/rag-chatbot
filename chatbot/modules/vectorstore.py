@@ -1,8 +1,8 @@
+import os
 from time import sleep
 from typing import List
-import os
-from langchain_chroma import Chroma
 from langchain_community.embeddings import CohereEmbeddings
+from langchain_community.vectorstores import Chroma
 
 EMBED_DELAY = 0.02  # 20 milliseconds
 
@@ -26,3 +26,17 @@ def get_cohere_embedding_model(cohere_api_key: str, chunks: List[str]):
         model="embed-english-light-v3.0", cohere_api_key=cohere_api_key
     )
     return cohere_embeddings
+
+
+def create_chroma_vector_db(chunks, embeddings, collection_name="chroma"):
+    if not chunks:
+        print("Empty texts passed in to create vector database")
+        proxy_embeddings = EmbeddingProxy(embeddings)
+    db = Chroma(
+        collection_name=collection_name,
+        embedding_function=proxy_embeddings,
+        persist_directory=os.path.join("store/", collection_name),
+    )
+    db.add_documents(chunks)
+
+    return db
