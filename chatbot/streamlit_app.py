@@ -1,21 +1,17 @@
 import os
 from dotenv import load_dotenv
 import streamlit as st
+from modules.get_chat_model import get_cohere_model
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain_community.embeddings import OpenAIEmbeddings
-from modules.remote_loader import load_web_page
 from modules.splitter import split_documents
 from modules.vectorstore import (
     get_cohere_embedding_model,
     create_chroma_vector_db,
-    find_similar,
 )
 from modules.prompt import qa_system_prompt, contextualize_q_system_prompt
-
-
 from modules.full_chain import create_full_chain, ask_question
 from modules.remote_loader import load_web_page
-from modules.get_chat_model import get_cohere_model
 
 
 st.set_page_config(page_title="LangChain & Streamlit RAG")
@@ -42,12 +38,12 @@ def show_ui(qa, prompt_to_user="How may I help you?"):
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 response = ask_question(qa, prompt)
-                st.markdown(response.content)
-        message = {"role": "assistant", "content": response.content}
+                st.markdown(response)
+        message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
 
 
-@st.cache_resource
+# @st.cache_resource
 def get_retriever(model_key, chunks):
     cohere_embeddings = get_cohere_embedding_model(model_key, chunks)
     database = create_chroma_vector_db(chunks, cohere_embeddings)
@@ -66,20 +62,6 @@ def get_chain(retriever, llm, qa_system_prompt, contextualize_q_system_prompt):
     return chain
 
 
-# def get_secret_or_input(secret_key, secret_name, info_link=None):
-#     if secret_key in st.secrets:
-#         st.write("Found %s secret" % secret_key)
-#         secret_value = st.secrets[secret_key]
-#     else:
-#         st.write(f"Please provide your {secret_name}")
-#         secret_value = st.text_input(secret_name, key=f"input_{secret_key}", type="password")
-#         if secret_value:
-#             st.session_state[secret_key] = secret_value
-#         if info_link:
-#             st.markdown(f"[Get an {secret_name}]({info_link})")
-#     return secret_value
-
-
 def run():
     ready = True
     # Load the environment variables from the .env file
@@ -94,7 +76,7 @@ def run():
         chain = get_chain(
             retriever, cohere_model, qa_system_prompt, contextualize_q_system_prompt
         )
-        st.subheader("Ask me questions about this week's meal plan")
+        st.subheader("Ask me questions about MQL5")
         show_ui(chain, "What would you like to know?")
     else:
         st.stop()
