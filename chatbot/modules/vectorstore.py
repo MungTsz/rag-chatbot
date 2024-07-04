@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from typing import List
-from langchain_cohere import CohereEmbeddings
+from langchain_community.embeddings import CohereEmbeddings
 from langchain_community.vectorstores import Chroma
 
 
