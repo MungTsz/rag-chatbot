@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import streamlit as st
 from modules.get_chat_model import get_cohere_model
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
-from langchain_community.embeddings import OpenAIEmbeddings
 from modules.splitter import split_documents
 from modules.vectorstore import (
     get_cohere_embedding_model,

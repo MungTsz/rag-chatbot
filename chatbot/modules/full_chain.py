@@ -3,6 +3,9 @@ from langchain.memory import ChatMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from modules.basic_chain import make_rag_chain
 from modules.memory_chain import create_memory_chain
+from langchain.schema.output_parser import StrOutputParser
+from langchain.callbacks.tracers import ConsoleCallbackHandler
+from langchain.callbacks.streamlit import StreamlitCallbackHandler
 
 
 def create_full_chain(
@@ -29,6 +32,10 @@ def create_full_chain(
 
 def ask_question(chain, query):
     response = chain.invoke(
-        {"question": query}, config={"configurable": {"session_id": "foo"}}
+        {"question": query},
+        config={
+            "configurable": {"session_id": "foo"},
+            "callbacks": [ConsoleCallbackHandler()],
+        },
     )
     return response
