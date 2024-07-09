@@ -5,7 +5,7 @@ from utils.create_logger import get_logger
 # logger = get_logger()
 
 
-def split_documents(docs, chunk_size, chunk_overlap):
+def split_documents(url_name, docs, chunk_size, chunk_overlap):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap
     )
@@ -14,5 +14,5 @@ def split_documents(docs, chunk_size, chunk_overlap):
         contents = [doc.page_content for doc in docs]
     chunks = text_splitter.create_documents(contents)
     n_chunks = len(chunks)
-    # logger.info(f"Split into {n_chunks} chunks")
+    print(f"Split {n_chunks} chunks from {url_name}")
     return chunks

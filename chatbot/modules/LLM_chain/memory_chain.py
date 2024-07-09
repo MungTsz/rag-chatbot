@@ -14,6 +14,7 @@ def create_memory_chain(llm, base_chain, chat_memory, contextualize_q_system_pro
             ("system", contextualize_q_system_prompt),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{question}"),
+            ("system", "Answer the question."),
         ]
     )
 

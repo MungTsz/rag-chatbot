@@ -1,25 +1,19 @@
 import os
+import warnings
+
 import streamlit as st
 from dotenv import load_dotenv
-from modules.get_chat_model import get_cohere_model
-from modules.full_chain import create_full_chain, ask_question
-from modules.prompt import qa_system_prompt, contextualize_q_system_prompt
-from modules.vectorstore import (
-    get_cohere_embedding_model,
-    create_chroma_vector_db,
-)
-from modules.splitter import split_documents
-from modules.remote_loader import load_web_page
 from langchain.globals import set_verbose
-from langchain_community.callbacks.streamlit import (
-    StreamlitCallbackHandler,
-)
+from langchain.memory import ChatMessageHistory
 
+from constants import URL_DICT_LIST
+from modules.LLM_chain.create_LLM_chain import ask_question, create_full_chain
+from modules.RAG.create_RAG import create_RAG_retriever
 
-st_callback = StreamlitCallbackHandler(st.container())
+warnings.filterwarnings("ignore")
 
-# Set global verbosity to verbose
-set_verbose(True)
+load_dotenv()
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 
 # initialize assistant chat history
 if "responses" not in st.session_state:
@@ -29,20 +23,16 @@ if "responses" not in st.session_state:
 if "questions" not in st.session_state:
     st.session_state.questions = []
 
-load_dotenv()
-cohere_api_key = os.getenv("COHERE_API_KEY")
-cohere_model = get_cohere_model()
-web_loader = load_web_page("https://www.mql5.com/en/blogs/post/752096", "content")
-docs = web_loader.load()
-chunks = split_documents(docs, 1000, 300)
-cohere_embeddings = get_cohere_embedding_model(cohere_api_key, chunks)
-database = create_chroma_vector_db(chunks, cohere_embeddings)
-retriever = database.as_retriever()
+if "chat_memory" not in st.session_state:
+    st.session_state.chat_memory = ChatMessageHistory()
+
+if "retriever" not in st.session_state:
+    st.session_state.retriever = create_RAG_retriever(COHERE_API_KEY, URL_DICT_LIST)
+
+
 chain = create_full_chain(
-    cohere_model,
-    retriever,
-    qa_system_prompt,
-    contextualize_q_system_prompt,
+    st.session_state.retriever,
+    st.session_state.chat_memory,
 )
 
 # set title

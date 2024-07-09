@@ -1,20 +1,17 @@
-from modules.get_chat_model import get_cohere_model
-from langchain.memory import ChatMessageHistory
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from modules.basic_chain import make_rag_chain
-from modules.memory_chain import create_memory_chain
-from langchain.schema.output_parser import StrOutputParser
 from langchain.callbacks.tracers import ConsoleCallbackHandler
-from langchain.callbacks.streamlit import StreamlitCallbackHandler
+from langchain.memory import ChatMessageHistory
+from langchain_core.prompts import ChatPromptTemplate
+from modules.LLM_chain.basic_chain import make_rag_chain
+from modules.LLM_chain.get_chat_model import get_cohere_model
+from modules.LLM_chain.memory_chain import create_memory_chain
+from modules.LLM_chain.prompt import contextualize_q_system_prompt, qa_system_prompt
 
 
 def create_full_chain(
-    model,
     retriever,
-    qa_system_prompt,
-    contextualize_q_system_prompt,
-    chat_memory=ChatMessageHistory(),
+    chat_memory: ChatMessageHistory,
 ):
+    model = get_cohere_model()
     qa_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", qa_system_prompt),

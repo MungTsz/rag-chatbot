@@ -5,10 +5,8 @@ contextualize_q_system_prompt = """Given a chat history and the latest user ques
 
 
 qa_system_prompt = """You are an assistant for question-answering tasks. \
-    Use the following pieces of retrieved context to answer the question. \
+    Only Use the following pieces of retrieved context to answer the question. \
     If you don't know the answer, just say that you don't know. \
     Use three sentences maximum and keep the answer concise.\
 
-    Context: {context}
-    
-    Question: """
+    Context: {context} """

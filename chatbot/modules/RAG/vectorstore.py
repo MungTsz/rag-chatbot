@@ -46,3 +46,10 @@ def create_chroma_vector_db(chunks, embeddings, collection_name="chroma"):
 def find_similar(vector_store, query):
     docs = vector_store.similarity_search(query)
     return docs
+
+
+def get_retriever(model_key, chunks):
+    cohere_embeddings = get_cohere_embedding_model(model_key, chunks)
+    database = create_chroma_vector_db(chunks, cohere_embeddings)
+    retriever = database.as_retriever()
+    return retriever
