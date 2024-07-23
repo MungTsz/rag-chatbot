@@ -1,33 +1,23 @@
-from modules.get_chat_model import get_cohere_model
-from langchain.memory import ChatMessageHistory
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from modules.basic_chain import make_rag_chain
-from modules.memory_chain import create_memory_chain
-from langchain.schema.output_parser import StrOutputParser
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from modules.rag_chain import create_rag_chain
 from langchain.callbacks.tracers import ConsoleCallbackHandler
-from langchain.callbacks.streamlit import StreamlitCallbackHandler
 
 
-def create_full_chain(
-    model,
-    retriever,
-    qa_system_prompt,
-    contextualize_q_system_prompt,
-    chat_memory=ChatMessageHistory(),
-):
-    qa_prompt = ChatPromptTemplate.from_messages(
-        [
-            ("system", qa_system_prompt),
-            # MessagesPlaceholder("chat_history"),
-            ("human", "{question}"),
-        ]
+def create_memory_chain(llm, retriever, qa_prompt, contextualize_q_prompt, chat_memory):
+
+    def get_session_history(session_id: str) -> BaseChatMessageHistory:
+        return chat_memory
+
+    rag_chain = create_rag_chain(llm, retriever, qa_prompt, contextualize_q_prompt)
+    rag_chain_with_message_history = RunnableWithMessageHistory(
+        rag_chain,
+        get_session_history,
+        input_messages_key="input",
+        history_messages_key="chat_history",
+        output_messages_key="answer",
     )
-
-    rag_chain = make_rag_chain(model, retriever, qa_prompt)
-    full_chain = create_memory_chain(
-        model, rag_chain, chat_memory, contextualize_q_system_prompt
-    )
-    return full_chain
+    return rag_chain_with_message_history
 
 
 def ask_question(chain, query):
