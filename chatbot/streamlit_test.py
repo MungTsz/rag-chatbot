@@ -51,7 +51,7 @@ chain = create_memory_chain(
 )
 
 # set title
-st.title("Forex Forest Assistant")
+st.title("Assistant")
 
 prompt_to_user = "Hi! Is there anything I can help you with?"
 with st.chat_message("assistant"):
