@@ -30,7 +30,7 @@ def get_qa_prompt():
         [
             ("system", qa_system_prompt),
             # MessagesPlaceholder("chat_history"),
-            ("human", "{question}"),
+            ("human", "{input}"),
         ]
     )
     return qa_prompt

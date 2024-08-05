@@ -1,7 +1,5 @@
 # rag-chatbot
 
-data: order data, news, performance
-
 - aim: build a personal financial chatbot
 - functionality:
 1. summarize the historical data

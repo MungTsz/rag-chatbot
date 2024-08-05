@@ -22,10 +22,10 @@ def create_memory_chain(llm, retriever, qa_prompt, contextualize_q_prompt, chat_
 
 def ask_question(chain, query):
     response = chain.invoke(
-        {"question": query},
+        {"input": query},
         config={
             "configurable": {"session_id": "foo"},
             "callbacks": [ConsoleCallbackHandler()],
         },
-    )
+    )["answer"]
     return response
